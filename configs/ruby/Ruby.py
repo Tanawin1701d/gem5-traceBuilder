@@ -196,6 +196,7 @@ def create_system(options, full_system, system, piobus = None, dma_ports = [],
         cpus = system.cpu
 
     protocol = buildEnv['PROTOCOL']
+    print(protocol)
     exec("from . import %s" % protocol)
     try:
         (cpu_sequencers, dir_cntrls, topology) = \

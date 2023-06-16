@@ -84,9 +84,9 @@ def main():
     # Read the magic number in 4-byte Little Endian
     magic_number = proto_in.read(4)
 
-    if magic_number != "gem5":
-        print("Unrecognized file", sys.argv[1])
-        exit(-1)
+    # if magic_number != "gem5":
+    #     print("Unrecognized file", sys.argv[1])
+    #     exit(-1)
 
     print("Parsing instruction header")
 

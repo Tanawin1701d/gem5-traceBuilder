@@ -48,6 +48,12 @@ from common import MemConfig
 from common.Caches import *
 
 parser = argparse.ArgumentParser()
+
+
+
+
+parser.add_argument("-tt","--test-tracer",action="store_true", help= "replay with same with tracer config")
+
 Options.addCommonOptions(parser)
 
 if '--ruby' in sys.argv:
@@ -76,6 +82,8 @@ system = System(cpu = CPUClass(cpu_id=0),
                 mem_ranges = [AddrRange(args.mem_size)],
                 cache_line_size = args.cacheline_size)
 
+print(AddrRange(args.mem_size))
+
 # Create a top-level voltage domain
 system.voltage_domain = VoltageDomain(voltage = args.sys_voltage)
 
@@ -97,6 +105,10 @@ system.cpu_clk_domain = SrcClockDomain(clock = args.cpu_clock,
 # frequency.
 for cpu in system.cpu:
     cpu.clk_domain = system.cpu_clk_domain
+    # for now we are sure that this is trace cpu so we can change sim rob size
+    cpu.sizeROB = 192
+    cpu.sizeStoreBuffer = 32
+    cpu.sizeLoadBuffer = 32
 
 # BaseCPU no longer has default values for the BaseCPU.isa
 # createThreads() is needed to fill in the cpu.isa

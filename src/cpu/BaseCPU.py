@@ -86,6 +86,11 @@ elif buildEnv['TARGET_ISA'] == 'riscv':
     from m5.objects.RiscvInterrupts import RiscvInterrupts as ArchInterrupts
     from m5.objects.RiscvISA import RiscvISA as ArchISA
     from m5.objects.RiscvDecoder import RiscvDecoder as ArchDecoder
+elif buildEnv["TARGET_ISA"] == 'traceBuilder':
+    from m5.objects.TRACEBUILDERmmu        import traceBuilderMmu        as ArchMMU
+    from m5.objects.TRACEBUILDERinterrupts import traceBuilderInterrupts as ArchInterrupts
+    from m5.objects.TRACEBUILDERisa        import traceBuilderISAX        as ArchISA
+    from m5.objects.TRACEBUILDERdecoder    import traceBuilderDecoder    as ArchDecoder
 else:
     print("Don't know what object types to use for ISA %s" %
             buildEnv['TARGET_ISA'])

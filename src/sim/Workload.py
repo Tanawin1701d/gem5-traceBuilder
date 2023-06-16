@@ -85,7 +85,7 @@ class SEWorkload(Workload, metaclass=SEWorkloadMeta):
     @classmethod
     def find_compatible(cls, path):
         '''List the SE workloads compatible with the binary at path'''
-
+        print(SEWorkloadMeta.all_se_workload_classes)
         from _m5 import object_file
         obj = object_file.create(path)
         options = list(filter(lambda wld: wld._is_compatible_with(obj),
@@ -104,4 +104,5 @@ class SEWorkload(Workload, metaclass=SEWorkloadMeta):
         elif len(options) < 1:
             raise ValueError("No SE workload is compatible with %s", path)
 
+        print(options)
         return options[0](*args, **kwargs)

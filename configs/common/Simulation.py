@@ -474,6 +474,8 @@ def run(options, root, testsys, cpu_class):
             switch_cpus[i].progress_interval = \
                 testsys.cpu[i].progress_interval
             switch_cpus[i].isa = testsys.cpu[i].isa
+            switch_cpus[i].decoder = testsys.cpu[i].decoder
+
             # simulation period
             if options.maxinsts:
                 switch_cpus[i].max_insts_any_thread = options.maxinsts

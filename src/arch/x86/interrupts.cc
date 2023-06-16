@@ -346,7 +346,7 @@ X86ISA::Interrupts::completeIPI(PacketPtr pkt)
 AddrRangeList
 X86ISA::Interrupts::getAddrRanges() const
 {
-    assert(tc);
+    //assert(tc);
     AddrRangeList ranges;
     ranges.push_back(RangeSize(pioAddr, PageBytes));
     return ranges;

@@ -134,7 +134,7 @@ def config_mem(options, system):
     opt_dram_powerdown = getattr(options, "enable_dram_powerdown", None)
     opt_mem_channels_intlv = getattr(options, "mem_channels_intlv", 128)
     opt_xor_low_bit = getattr(options, "xor_low_bit", 0)
-
+    opt_test_tracer = getattr(options, "test_tracer", False)
     if opt_mem_type == "HMC_2500_1x32":
         HMChost = HMC.config_hmc_host_ctrl(options, system)
         HMC.config_hmc_dev(options, system, HMChost.hmc_host)
@@ -212,13 +212,16 @@ def config_mem(options, system):
                 if issubclass(intf, m5.objects.DRAMInterface):
                     dram_intf.enable_dram_powerdown = opt_dram_powerdown
 
-                if opt_elastic_trace_en:
+                if opt_elastic_trace_en or opt_test_tracer  :
                     dram_intf.latency = '1ns'
                     print("For elastic trace, over-riding Simple Memory "
                         "latency to 1ns.")
 
                 # Create the controller that will drive the interface
+                #dram_intf.write_buffer_size = 512
                 mem_ctrl = dram_intf.controller()
+
+                #mem_ctrl.mem_sched_policy = "fcfs"
 
                 mem_ctrls.append(mem_ctrl)
 

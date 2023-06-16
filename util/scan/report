@@ -1,0 +1,67 @@
+COUNT : 6
+IntAlu  lat: 1 pip: True
+-------------------------------------------
+COUNT : 2
+IntMult  lat: 3 pip: True
+IntDiv  lat: 1 pip: False
+-------------------------------------------
+COUNT : 4
+FloatAdd  lat: 2 pip: True
+FloatCmp  lat: 2 pip: True
+FloatCvt  lat: 2 pip: True
+-------------------------------------------
+COUNT : 2
+FloatMult  lat: 4 pip: True
+FloatMultAcc  lat: 5 pip: True
+FloatMisc  lat: 3 pip: True
+FloatDiv  lat: 12 pip: False
+FloatSqrt  lat: 24 pip: False
+-------------------------------------------
+COUNT : 0
+MemRead  lat: 1 pip: True
+FloatMemRead  lat: 1 pip: True
+-------------------------------------------
+COUNT : 4
+SimdAdd  lat: 1 pip: True
+SimdAddAcc  lat: 1 pip: True
+SimdAlu  lat: 1 pip: True
+SimdCmp  lat: 1 pip: True
+SimdCvt  lat: 1 pip: True
+SimdMisc  lat: 1 pip: True
+SimdMult  lat: 1 pip: True
+SimdMultAcc  lat: 1 pip: True
+SimdShift  lat: 1 pip: True
+SimdShiftAcc  lat: 1 pip: True
+SimdDiv  lat: 1 pip: True
+SimdSqrt  lat: 1 pip: True
+SimdFloatAdd  lat: 1 pip: True
+SimdFloatAlu  lat: 1 pip: True
+SimdFloatCmp  lat: 1 pip: True
+SimdFloatCvt  lat: 1 pip: True
+SimdFloatDiv  lat: 1 pip: True
+SimdFloatMisc  lat: 1 pip: True
+SimdFloatMult  lat: 1 pip: True
+SimdFloatMultAcc  lat: 1 pip: True
+SimdFloatSqrt  lat: 1 pip: True
+SimdReduceAdd  lat: 1 pip: True
+SimdReduceAlu  lat: 1 pip: True
+SimdReduceCmp  lat: 1 pip: True
+SimdFloatReduceAdd  lat: 1 pip: True
+SimdFloatReduceCmp  lat: 1 pip: True
+-------------------------------------------
+COUNT : 1
+SimdPredAlu  lat: 1 pip: True
+-------------------------------------------
+COUNT : 0
+MemWrite  lat: 1 pip: True
+FloatMemWrite  lat: 1 pip: True
+-------------------------------------------
+COUNT : 4
+MemRead  lat: 1 pip: True
+MemWrite  lat: 1 pip: True
+FloatMemRead  lat: 1 pip: True
+FloatMemWrite  lat: 1 pip: True
+-------------------------------------------
+COUNT : 1
+IprAccess  lat: 3 pip: False
+-------------------------------------------

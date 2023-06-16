@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+
+        {
+            "name": "Launch and debug gem5 in se mode",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/TRACEBUILDER/gem5.debug",
+            "args": [
+                        "--debug-flags=O3CPUAll",
+                        "--stats-file=/media/tanawin/tanawin1701e/Project/Intern/InternGem5/m5out/capstone6/fluid/msms_128size2dbg__exp.txt",
+                        "--json-config=/media/tanawin/tanawin1701e/Project/Intern/InternGem5/m5out/capstone6/fluid/msms_128size2dbg__exp.json",
+                        "configs/example/se.py",
+                        "--mem-size=8192MB",
+                        "--workloads=fluidanimate",
+                        "--cpu-type=DerivO3CPU",
+                        "--l1d_size=16kB",
+                        "--l1i_size=2kB",
+                        "-n 1",
+                        "--caches"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [{
+                "name": "M5_PATH",
+                "value": "${workspaceFolder}"
+            }],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        },
+    ]
+}

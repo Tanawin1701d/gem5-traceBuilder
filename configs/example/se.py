@@ -117,6 +117,10 @@ def get_processes(args):
 
 
 parser = argparse.ArgumentParser()
+
+parser.add_argument("-wk","--workloads", help = "workload for test")
+
+
 Options.addCommonOptions(parser)
 Options.addSEOptions(parser)
 
@@ -124,11 +128,53 @@ if '--ruby' in sys.argv:
     Ruby.define_options(parser)
 
 args = parser.parse_args()
+opt_workload = getattr(args, "workloads", "lu")
+
+
+class fluidanimateWK(Process):
+    cwd = '/media/tanawin/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/fluidanimate'
+    executable = '/media/tanawin/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/fluidanimate/inst/amd64-linux.gcc-serial/bin/fluidanimate'
+    cmd = ['inst/amd64-linux.gcc-serial/bin/fluidanimate', 
+            '1', 
+            '5', 
+            'inputs/input_simmedium/in_100K.fluid',
+            'output/myoutput'
+          ]
+
+class blackscholesWK(Process):
+    cwd = '/media/tanawin/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/blackscholes'
+    executable = '/media/tanawin/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/blackscholes/inst/amd64-linux.gcc-serial/bin/blackscholes'
+    cmd = ['inst/amd64-linux.gcc-serial/bin/blackscholes', 
+            '1', 
+            'inputs/input_simmedium/in_16K.txt', 
+            'output/myoutput'
+          ]
+
+class loopchecker(Process):
+    cwd = "/media/tanawin/tanawin1701d/Project/sms/compiledEle/meta_workloads/test-progs/foolloop"
+    executable = "/media/tanawin/tanawin1701d/Project/sms/compiledEle/meta_workloads/test-progs/foolloop/1000l"
+    cmd = ["1000l"]
+
 
 multiprocesses = []
 numThreads = 1
 
-if args.bench:
+if args.workloads:
+    templateWorkloads = {
+     "fluidanimate" : fluidanimateWK,
+     "blackscholes" : blackscholesWK,
+     "loopchecker"  : loopchecker
+    }
+
+    if (opt_workload not in templateWorkloads):
+        sys.exit("no match workload")
+
+    for mock in range(args.num_cpus):
+        mnp = templateWorkloads[opt_workload]()
+        mnp.pid = 100 + mock
+        multiprocesses.append(mnp)
+
+elif args.bench:
     apps = args.bench.split("-")
     if len(apps) != args.num_cpus:
         print("number of benchmarks not equal to set num_cpus!")
@@ -235,7 +281,7 @@ for i in range(np):
         indirectBPClass = \
             ObjectList.indirect_bp_list.get(args.indirect_bp_type)
         system.cpu[i].branchPred.indirectBranchPred = indirectBPClass()
-
+    print("try createThread")
     system.cpu[i].createThreads()
 
 if args.ruby:
