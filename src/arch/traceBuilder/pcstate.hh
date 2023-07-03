@@ -46,7 +46,81 @@ namespace gem5
 namespace TracebuilderISA
 {
 
-typedef GenericISA::UPCState<4> PCState;
+class PCState : public GenericISA::UPCState<8>
+{
+  protected:
+    using Base = GenericISA::UPCState<8>;
+
+    uint8_t _size;
+
+  public:
+    PCStateBase *clone() const override { return new PCState(*this); }
+
+    void
+    update(const PCStateBase &other) override
+    {
+        Base::update(other);
+        auto &pcstate = other.as<PCState>();
+        _size = pcstate._size;
+    }
+
+    void
+    set(Addr val)
+    {
+        Base::set(val);
+        _size = 0;
+    }
+
+    PCState(const PCState &other) : Base(other), _size(other._size) {}
+    PCState &operator=(const PCState &other) = default;
+    PCState() {}
+    explicit PCState(Addr val) { set(val); }
+
+    void
+    setNPC(Addr val)
+    {
+        Base::setNPC(val);
+        _size = 0;
+    }
+
+    uint8_t size() const { return _size; }
+    void size(uint8_t newSize) { _size = newSize; }
+
+    bool
+    branching() const override
+    {
+        return (this->npc() != this->pc() + size()) ||
+               (this->nupc() != this->upc() + 1);
+    }
+
+    void
+    advance() override
+    {
+        Base::advance();
+        _size = 0;
+    }
+
+    void
+    uEnd()
+    {
+        Base::uEnd();
+        _size = 0;
+    }
+
+    void
+    serialize(CheckpointOut &cp) const override
+    {
+        Base::serialize(cp);
+        SERIALIZE_SCALAR(_size);
+    }
+
+    void
+    unserialize(CheckpointIn &cp) override
+    {
+        Base::unserialize(cp);
+        UNSERIALIZE_SCALAR(_size);
+    }
+};
 
 } // namespace TracebuilderISA
 } // namespace gem5

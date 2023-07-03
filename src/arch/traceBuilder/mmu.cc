@@ -20,26 +20,60 @@ namespace gem5{
         
         translateAtomic(req, tc, mode);
 
-        preRetQueueIside.push({
-            req,
-            tc,
-            mode,
-            translation
-        });
+        if (mode == BaseMMU::Execute){
 
-        schedule(finishTranslateEvent, curTick() + 500);
+            /** for i side*/
+            preRetIsideQueue.push({
+                req,
+                tc,
+                mode,
+                translation
+            });
+            if (!finishIsideTranslateEvent.scheduled()){
+                schedule(finishIsideTranslateEvent, curTick() + 500);
+            }
+
+        }else{
+            /** for d side*/
+            preRetDsideQueue.push({
+                req,
+                tc,
+                mode,
+                translation
+            });
+            if (!finishDsideTranslateEvent.scheduled()){
+                schedule(finishDsideTranslateEvent, curTick() + 500);
+            }
+
+        }
 
     };
 
     void
-    Mmu::completeTiming(){
-        preRetQueueIside.front().translationIside->finish(NoFault, 
-                                                          preRetQueueIside.front().reqIside, 
-                                                          preRetQueueIside.front().tcIside, 
-                                                          preRetQueueIside.front().modeIside
+    Mmu::completeIsideTiming(){
+        preRetIsideQueue.front().translation->finish(NoFault, 
+                                                          preRetIsideQueue.front().reqside, 
+                                                          preRetIsideQueue.front().tcside, 
+                                                          preRetIsideQueue.front().modeside
         );
-        preRetQueueIside.pop();
+        preRetIsideQueue.pop();
+        if (!preRetIsideQueue.empty() && !finishIsideTranslateEvent.scheduled()){
+            schedule(finishIsideTranslateEvent, curTick() + 500);
+        }
     }
+
+    void
+    Mmu::completeDsideTiming(){
+        preRetDsideQueue.front().translation->finish(NoFault, preRetDsideQueue.front().reqside,
+                                                              preRetDsideQueue.front().tcside,
+                                                              preRetDsideQueue.front().modeside
+        );
+        preRetDsideQueue.pop();
+        if (!preRetDsideQueue.empty() && !finishDsideTranslateEvent.scheduled()){
+            schedule(finishDsideTranslateEvent, curTick() + 500);
+        }
+    }
+
     
     Fault
     Mmu::translateFunctional(const RequestPtr &req, ThreadContext *tc, Mode mode) {

@@ -28,27 +28,29 @@ namespace gem5{
 
             void clear(){};
 
-            int flattenIntIndex(RegIndex idx){return 0;};
+            int flattenIntIndex(RegIndex idx){return idx;};
             
-            int flattenFloatIndex(RegIndex idx){return 0;};
+            int flattenFloatIndex(RegIndex idx){return idx;};
 
-            int flattenVecIndex(RegIndex idx){return 0;};
+            int flattenVecIndex(RegIndex idx){return idx;};
 
-            int flattenVecElemIndex(RegIndex idx){return 0;};
+            int flattenVecElemIndex(RegIndex idx){return idx;};
 
-            int flattenVecPredIndex(RegIndex idx){return 0;};
+            int flattenVecPredIndex(RegIndex idx){return idx;};
 
-            int flattenCCIndex(RegIndex idx){return 0;};
+            int flattenCCIndex(RegIndex idx){return idx;};
 
-            RegVal readMiscRegNoEffect(RegIndex idx){return 0;};
+            RegVal readMiscRegNoEffect(RegIndex idx){return idx;};
 
-            RegVal readMiscReg(RegIndex idx){return 0;};
+            RegVal readMiscReg(RegIndex idx){return idx;};
             
             void setMiscRegNoEffect(RegIndex idx, RegVal val){};
 
             void setMiscReg(RegIndex idx, RegVal val){};
 
-            RegId flattenRegId(RegId idx){return RegId();};
+
+
+            RegId flattenRegId(RegId idx){return idx;};
 
             
 

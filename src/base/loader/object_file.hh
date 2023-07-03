@@ -76,7 +76,8 @@ enum OpSys
     LinuxArmOABI,
     LinuxPower64ABIv1,
     LinuxPower64ABIv2,
-    FreeBSD
+    FreeBSD,
+    TbdOpSys /** op sys for traceBuilder*/
 };
 
 const char *opSysToString(OpSys op_sys);

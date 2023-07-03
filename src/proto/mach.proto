@@ -1,0 +1,45 @@
+syntax = "proto2";
+
+
+package ProtoMessage;
+
+message headerRecord {
+  required string obj_id = 1;
+  optional uint32 ver = 2 [default = 0];
+}
+
+message machRecord{
+    enum RecordType{
+      /////// please note that this enum must be related with uop from model/uop_model/uopBase.hh
+                   //// valid argument that You can use
+      UOP_COMP = 0;//// seq_num, funcUnit, *achRegId, *temRegId
+      UOP_LOAD = 1;//// seq_num, v_*, p_*,funcUnit, achRegId, temRegId
+      UOP_STORE = 2;//// seq_num, v_*, p_*,funcUnit, achRegId, temRegId
+      UOP_IMM  = 3;//// seq_num, funcUnit, *temRegId
+      UOP_DUMMY = 4; /// aka invalid
+
+    }
+    //// sequence number among the program
+    required uint64 seq_num = 1;
+    optional uint64 v_Addr = 2; //// virtual instruction address
+    optional uint32 v_Size = 3;  //// virtual size
+    optional uint64 p_effAddr =4; //// virtual effective address only affect when
+    optional uint32 p_effSize = 5;  ///// effective to memory size
+    required uint32 funcUnit = 6;  //// fucntional unit
+    repeated uint32 srcArchRegId = 7; //// array of architectural register id
+    repeated uint32 desArchRegId = 8;
+    repeated uint32 srcTempRegId = 9; //// array of temporal register id
+    repeated uint32 desTempRegId = 10;
+    required RecordType recType = 11 [default =  UOP_DUMMY]; //// recorrd type
+
+}
+
+
+message InstrRecord{
+  required uint64 instr_num = 1;
+  required uint64 fetch_num = 2;
+  repeated machRecord uops= 3;
+  required uint64 v_instrAddr = 4; //// virtual instruction address
+  required uint32 v_instrSize = 5; /// size of the instruction
+
+}

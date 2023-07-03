@@ -40,6 +40,7 @@ Import('*')
 
 Source("decoder.cc")
 Source("instrSimple.cc")
+Source("instrRw.cc")
 Source("isa.cc")
 Source("mmu.cc")
 Source("linux/se_workload.cc")
@@ -50,4 +51,7 @@ SimObject("TRACEBUILDERinterrupts.py", sim_objects=["traceBuilderInterrupts"])
 SimObject("TRACEBUILDERisa.py", sim_objects=["traceBuilderISAX"])
 SimObject("TRACEBUILDERmmu.py", sim_objects=["traceBuilderMmu"])
 SimObject("TRACEBUILDERworkload.py", sim_objects=["traceBuilderWorkload"])
+
+
+DebugFlag("TBDDecode", "for check how much generated")
 

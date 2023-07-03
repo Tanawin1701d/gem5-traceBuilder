@@ -34,4 +34,6 @@ class traceBuilderWorkload(SEWorkload):
 
     @classmethod
     def _is_compatible_with(cls, obj):
-        return True
+        print(f"compatability test with arch : {obj.get_arch()} and {obj.get_op_sys()}")
+        return (obj.get_arch() in ("traceBuilder")) \
+                and (obj.get_op_sys() in ('traceBuilderPsuedoOp'))

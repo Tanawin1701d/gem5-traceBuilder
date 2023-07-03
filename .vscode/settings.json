@@ -77,5 +77,7 @@
         "thread": "cpp",
         "cfenv": "cpp",
         "typeindex": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled",
+    "C_Cpp.intelliSenseEngineFallback": "enabled"
 }

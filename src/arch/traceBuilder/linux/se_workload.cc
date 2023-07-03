@@ -62,6 +62,12 @@ class LinuxLoader : public Process::Loader
     {
         auto arch = obj->getArch();
         auto opsys = obj->getOpSys();
+
+        if (arch != loader::TraceBuilder){
+          std::cout << "not match traceBuilder" << std::endl;
+          return nullptr;
+        }
+
         std::cout << "process for trace Builder is created" << std::endl;
         return new TracebuilderISA::TraceBuilderProcess(params, obj);
     }

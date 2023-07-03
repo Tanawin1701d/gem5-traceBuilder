@@ -94,8 +94,8 @@
 
 
 time build/X86/gem5.opt \
- --stats-file=/media/tanawin/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilder3/blackscholes/real/gemReal.txt \
- --json-config=/media/tanawin/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilder3/blackscholes/real/gemReal.json \
+ --stats-file=/media/tanawin/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilder3/blackscholes/real/gemRealFake.txt \
+ --json-config=/media/tanawin/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilder3/blackscholes/real/gemRealFake.json \
  configs/example/se.py \
  --mem-size=8192MB \
  --workloads=blackscholes \

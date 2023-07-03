@@ -2,6 +2,7 @@
 #define __ARCH_TRACEBUILDER_PROCESS__
 
 #include "sim/process.hh"
+#include "sim/sim_exit.hh"
 
 namespace gem5{
 
@@ -14,6 +15,9 @@ namespace TracebuilderISA{
       public:
 
         TraceBuilderProcess(const ProcessParams &params, loader::ObjectFile *objFile);
+
+        void syscall(ThreadContext* tc) override;
+
     };
 
 

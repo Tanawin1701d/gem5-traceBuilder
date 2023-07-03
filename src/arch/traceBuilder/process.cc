@@ -22,6 +22,13 @@ TraceBuilderProcess::TraceBuilderProcess(
     }
 
 
+void
+TraceBuilderProcess::syscall(ThreadContext* tc){
+    std::string retString = "finish replaying";
+    exitSimLoop(retString);
 }
+
+}
+
 
 }

@@ -94,7 +94,6 @@ ElfObjectFormat::load(ImageFileDataPtr ifd)
 namespace
 {
 
-ElfObjectFormat elfObjectFormat;
 std::string interpDir;
 
 } // anonymous namespace

@@ -54,7 +54,7 @@ namespace X86ISA
 {
 
 class EmuLinux : public SEWorkload
-{
+{ 
   public:
     using Params = X86EmuLinuxParams;
 

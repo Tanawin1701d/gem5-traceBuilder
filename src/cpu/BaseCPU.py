@@ -254,6 +254,19 @@ class BaseCPU(ClockedObject):
         if self.checker != NULL:
             self.checker.createThreads()
 
+    def createTbdThreads(self, uopStreamName): ### stream of tbd that generated from uopStreamName
+        if len(self.isa) == 0:
+            self.isa = list([ ArchISA() for i in range(self.numThreads) ])
+        else:
+            if len(self.isa) != int(self.numThreads):
+                raise RuntimeError("Number of ISA instances doesn't "
+                                   "match thread count")
+        if len(self.decoder) != 0:
+            raise RuntimeError("Decoders should not be set up manually")
+        self.decoder = list([ ArchDecoder(isa=isa, uopStreamName = uopStreamName) for isa in self.isa ])
+        if self.checker != NULL:
+            self.checker.createThreads()
+
     def addCheckerCpu(self):
         pass
 

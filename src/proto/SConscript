@@ -42,6 +42,7 @@ if env['HAVE_PROTOBUF']:
     ProtoBuf('inst_dep_record.proto')
     ProtoBuf('packet.proto')
     ProtoBuf('inst.proto')
+    ProtoBuf('mach.proto')
     Source('protobuf.cc')
     Source('protoio.cc')
 

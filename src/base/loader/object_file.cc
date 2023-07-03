@@ -72,6 +72,8 @@ archToString(Arch arch)
         return "riscv64";
       case Riscv32:
         return "riscv32";
+      case TraceBuilder:
+        return "traceBuilder";
       default:
         panic("Unrecognized arch %d.", arch);
     }
@@ -95,6 +97,8 @@ opSysToString(OpSys op_sys)
         return "linux_arm_OABI";
       case FreeBSD:
         return "freebsd";
+      case TbdOpSys:
+        return "traceBuilderPsuedoOp";
       default:
         panic("Unrecognized operating system %d.", op_sys);
     }
