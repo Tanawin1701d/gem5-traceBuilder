@@ -340,6 +340,12 @@ CPU::CPU(const O3CPUParams &params)
     }
 }
 
+
+CPU::~CPU(){
+    commit.finalizeCommitStat();
+    std::cout << "saved commit stat" << std::endl;
+}
+
 void
 CPU::regProbePoints()
 {

@@ -175,6 +175,9 @@ class O3CPU(BaseCPU):
                                        "Branch Predictor")
     needsTSO = Param.Bool(buildEnv['TARGET_ISA'] == 'x86',
                           "Enable TSO Memory model")
+    
+    commitStatPath = Param.String("", "File to ")
+
 
     def addCheckerCpu(self):
         if buildEnv['TARGET_ISA'] in ['arm']:
@@ -192,6 +195,12 @@ class O3CPU(BaseCPU):
         else:
             print("ERROR: Checker only supported under ARM ISA!")
             exit(1)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if "commitStatPath" in kwargs:
+            self.commitStatPath = kwargs["commitStatPath"]
+    
 
 # Deprecated
 DerivO3CPU = O3CPU

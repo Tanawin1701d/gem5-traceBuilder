@@ -5,9 +5,11 @@ namespace gem5{
     namespace TracebuilderISA{
         
         ISA::ISA(const traceBuilderISAXParams &p) : BaseISA(p){
-            _regClasses.emplace_back(52);
-            _regClasses.emplace_back(52);
-            _regClasses.emplace_back(52);
+                                //   int|temp|newBuilt
+            _regClasses.emplace_back(16 + 10 + 20);
+                                //   flt|vec| extra
+            _regClasses.emplace_back(8 + 16*4 + 10);
+            _regClasses.emplace_back(1);
             _regClasses.emplace_back(2);
             _regClasses.emplace_back(2);
             _regClasses.emplace_back(0);

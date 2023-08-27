@@ -52,14 +52,19 @@ class tbdMicroop : public StaticInst{
     static const int amtRawIdx_FLT   = 8;
 
     static const int startRawIdx_VEC = 200; /** vector register start index*/
-    static const int tamtRawIdx_VEC  = 32;
+    static const int tamtRawIdx_VEC  = 64;
 
     static const int startRawIdx_TEM = 300; /** we need t o -500*/
+    static const int amtRawIdx_TEM   = 10;
 
     static const int startRawIdx_UNK = 400; /** start of unknow register*/
 
     static const int dummyOpclass = 99; /** for gem5, we will fix to 0*/
-    
+
+
+
+
+    void setINTFLT(int functionalUnit);
 
     RegId buildTbdRegId(RegIndex rid);
 

@@ -131,6 +131,9 @@ Commit::Commit(CPU *_cpu, const O3CPUParams &params)
         htmStops[tid] = 0;
     }
     interrupt = NoFault;
+
+
+    outputCommitStat = new std::ofstream(params.commitStatPath);
 }
 
 std::string Commit::name() const { return cpu->name() + ".commit"; }
@@ -1021,6 +1024,7 @@ Commit::commitInsts()
             if (commit_success) {
                 ++num_committed;
                 stats.committedInstType[tid][head_inst->opClass()]++;
+                commitStat[head_inst->staticInst->getName()].instrCount++;
                 ppCommit->notify(head_inst);
 
                 // hardware transactional memory
@@ -1535,6 +1539,18 @@ Commit::oldestReady()
     } else {
         return InvalidThreadID;
     }
+}
+
+void
+Commit::finalizeCommitStat(){
+
+        for (auto iter : commitStat){
+            *outputCommitStat << iter.first << "    TANAWINVAL   " << std::to_string(iter.second.instrCount) << "\n";
+
+        }
+
+        outputCommitStat->close();
+
 }
 
 } // namespace o3

@@ -19,20 +19,7 @@ namespace gem5{
 
         class Mmu : public BaseMMU{
 
-            struct preRetMmu{
-                RequestPtr     reqside;
-                ThreadContext* tcside;
-                Mode           modeside;
-                Translation*   translation = nullptr;
-            };
-
-            public:
-                std::queue<preRetMmu> preRetIsideQueue;
-                EventFunctionWrapper finishIsideTranslateEvent;
-
-                std::queue<preRetMmu> preRetDsideQueue;
-                EventFunctionWrapper finishDsideTranslateEvent;
-                
+            public:               
 
                 class traceBuilderTranslationGen : public TranslationGen{
                 
@@ -45,13 +32,8 @@ namespace gem5{
                 };
 
 
-                
-
-
                 Mmu(const traceBuilderMmuParams& p): 
-                    BaseMMU(p), 
-                    finishIsideTranslateEvent([this]{completeIsideTiming();}, name()),
-                    finishDsideTranslateEvent([this]{completeDsideTiming();}, name())
+                    BaseMMU(p)
                     {};
                 void flushAll() override {};
 
@@ -61,12 +43,6 @@ namespace gem5{
                 void
                 translateTiming(const RequestPtr &req, ThreadContext *tc,
                 Translation *translation, Mode mode) override;
-
-                void
-                completeIsideTiming();
-
-                void 
-                completeDsideTiming();
 
                 Fault
                 translateFunctional(const RequestPtr &req, ThreadContext *tc, Mode mode) override;

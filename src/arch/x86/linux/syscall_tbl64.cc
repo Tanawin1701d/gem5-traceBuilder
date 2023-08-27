@@ -361,6 +361,7 @@ SyscallDescTable<EmuLinux::SyscallABI64> EmuLinux::syscallDescs64 = {
     { 311, "proess_vm_writev" },
     { 312, "kcmp" },
     { 313, "finit_module" },
+    { 334, "rseq", ignoreFunc}
 };
 
 } // namespace X86ISA

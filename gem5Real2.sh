@@ -94,9 +94,10 @@
 
 
 time build/X86/gem5.opt \
- --stats-file=/media/tanawin/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilder3/fluidAnimate/real/gemReal.txt \
- --json-config=/media/tanawin/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilder3/fluidAnimate/real/gemReal.json \
+ --stats-file=/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilderBase/fluidAnimate/real/gemReal2.txt \
+ --json-config=/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilderBase/fluidAnimate/real/gemReal2.txt \
  configs/example/se.py \
+ --commitstat=/tanawin1701e/Project/gem5base/gem5/m5out/traceBuilderBase/fluidAnimate/real/gemRealcmtStat2.txt \
  --mem-size=8192MB \
  --workloads=fluidanimate \
  --cpu-type=DerivO3CPU \

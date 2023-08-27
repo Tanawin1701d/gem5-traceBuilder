@@ -52,14 +52,6 @@ namespace gem5{
 
             RegId flattenRegId(RegId idx){return idx;};
 
-            
-
-
-
-
-
-            
-
         };
 
 

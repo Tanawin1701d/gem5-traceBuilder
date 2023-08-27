@@ -95,15 +95,79 @@ tbdMacroop::fetchMicroop(MicroPC upc) const{
  * 
  * */
 
+void
+tbdMicroop::setINTFLT(int fu){
+    static int mapFlag[] = {
+/* "No_OpClass"             */ IsInteger, 
+/* "IntAlu"                 */ IsInteger,
+/* "IntMult"                */ IsInteger,
+/* "IntDiv"                 */ IsInteger, 
+/* "FloatAdd"               */ IsFloating,
+/* "FloatCmp"               */ IsFloating, 
+/* "FloatCvt"               */ IsFloating, 
+/* "FloatMult"              */ IsFloating, 
+/* "FloatMultAcc"           */ IsFloating, 
+/* "FloatDiv"               */ IsFloating, 
+/* "FloatMisc"              */ IsFloating, 
+/* "FloatSqrt"              */ IsFloating, 
+/* "SimdAdd"                */ IsInteger,
+/* "dAddAcc"                */ IsInteger,
+/* "SimdAlu"                */ IsInteger,
+/* "SimdCmp"                */ IsInteger,
+/* "SimdCvt"                */ IsInteger,
+/* "SimdMisc"               */ IsInteger,
+/* "SimdMult"               */ IsInteger,
+/* "SimdMultAcc"            */ IsInteger,
+/* "SimdShift"              */ IsInteger,
+/* "SimdShiftAcc"           */ IsInteger,
+/* "SimdDiv"                */ IsInteger,
+/* "SimdSqrt"               */ IsInteger,
+/* "SimdFloatAdd"           */ IsFloating,
+/* "SimdFloatAlu"           */ IsFloating,
+/* "SimdFloatCmp"           */ IsFloating,
+/* "SimdFloatCvt"           */ IsFloating,
+/* "SimdFloatDiv"           */ IsFloating,
+/* "SimdFloatMisc"          */ IsFloating,
+/* "SimdFloatMult"          */ IsFloating,
+/* "SimdFloatMultAcc"       */ IsFloating,
+/* "SimdFloatSqrt"          */ IsFloating,
+/* "SimdReduceAdd"          */ IsInteger,
+/* "SimdReduceAlu"          */ IsInteger,
+/* "SimdReduceCmp"          */ IsInteger,
+/* "SimdFloatReduceAdd"     */ IsFloating,
+/* "SimdFloatReduceCmp"     */ IsFloating,
+/* "SimdAes"                */ IsInteger,
+/* "SimdAesMix"             */ IsInteger,
+/* "SimdSha1Hash"           */ IsInteger,
+/* "SimdSha1Hash2"          */ IsInteger,
+/* "SimdSha256Hash"         */ IsInteger,
+/* "SimdSha256Hash2"        */ IsInteger,
+/* "SimdShaSigma2"          */ IsInteger,
+/* "SimdShaSigma3"          */ IsInteger,
+/* "SimdPredAlu"            */ IsInteger,
+/* cxxTypeUOP_LOAD_INT      */ IsInteger,
+/* cxxTypeUOP_STORE_INT     */ IsInteger,
+/* cxxTypeUOP_LOAD_FLT      */ IsFloating,
+/* cxxTypeUOP_STORE_FLT     */ IsFloating,
+/* "IprAccess"              */ IsInteger,
+/* "InstPrefetch"           */ IsInteger
+    };
+    assert( mapFlag[fu] == IsInteger || mapFlag[fu] == IsFloating);
+    //std::cout << mapFlag[fu] << std::endl;
+    flags[mapFlag[fu]] = true;
+}
+
 RegId 
 tbdMicroop::buildTbdRegId(RegIndex rid){
+    /////// int | temp | newBuilt
+    /////// flt | vec  | 
     if (rid >= startRawIdx_UNK){
                                                           /** int reg  + spare for tem reg*/
-        return RegId(IntRegClass, rid - startRawIdx_UNK + amtRawIdx_INT + 10);
+        return RegId(IntRegClass, rid - startRawIdx_UNK + amtRawIdx_INT  + amtRawIdx_TEM);
     }else if (rid >= startRawIdx_TEM){
-        return RegId(IntRegClass, rid - startRawIdx_UNK + amtRawIdx_INT);
+        return RegId(IntRegClass, rid - startRawIdx_TEM + amtRawIdx_INT);
     }else if (rid >= startRawIdx_VEC){
-        return RegId(VecRegClass, rid - startRawIdx_VEC);
+        return RegId(FloatRegClass, rid - startRawIdx_VEC + amtRawIdx_FLT);
     }else if (rid >= startRawIdx_FLT){
         return RegId(FloatRegClass, rid - startRawIdx_FLT);
     } // if (rid >= startRawIdx_INT){
@@ -123,6 +187,8 @@ tbdMicroop::tbdMicroop(ProtoMessage::machRecord& _machRec,
 {
         /** manually set opclass*/
         uint32_t functionalUnit = _machRec.funcunit();
+
+        setINTFLT(functionalUnit);
         
         if (functionalUnit == dummyOpclass){
             _opClass = enums::OpClass::No_OpClass;
@@ -146,6 +212,8 @@ tbdMicroop::tbdMicroop(ProtoMessage::machRecord& _machRec,
                 reinterpret_cast<RegIdArrayPtr>(&std::remove_pointer_t<decltype(this)>::srcRegs),
                 reinterpret_cast<RegIdArrayPtr>(&std::remove_pointer_t<decltype(this)>::desRegs)
         );
+
+
 
         /** set src reg*/
         for (int i = 0; i < _numSrcRegs; i++){

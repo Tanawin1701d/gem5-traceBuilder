@@ -119,6 +119,7 @@ def get_processes(args):
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-tf","--tbdfile", help = "workload for test")
+parser.add_argument("-cst", "--commitstat", help = "stat commiting instruction path")
 
 
 Options.addCommonOptions(parser)
@@ -129,11 +130,13 @@ if '--ruby' in sys.argv:
 
 args = parser.parse_args()
 opt_workload = getattr(args, "workloads", "lu")
+opt_comStatPath = getattr(args, "commitstat", "/")
+
 
 
 class fluidanimateWK(Process):
-    cwd = '/media/tanawin/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/fluidanimate'
-    executable = '/media/tanawin/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/fluidanimate/inst/amd64-linux.gcc-serial/bin/fluidanimate'
+    cwd = '/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/fluidanimate'
+    executable = '/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/fluidanimate/inst/amd64-linux.gcc-serial/bin/fluidanimate'
     cmd = ['inst/amd64-linux.gcc-serial/bin/fluidanimate', 
             '1', 
             '5', 
@@ -142,8 +145,8 @@ class fluidanimateWK(Process):
           ]
 
 class blackscholesWK(Process):
-    cwd = '/media/tanawin/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/blackscholes'
-    executable = '/media/tanawin/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/blackscholes/inst/amd64-linux.gcc-serial/bin/blackscholes'
+    cwd = '/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/blackscholes'
+    executable = '/tanawin1701e/Project/sms/pintool/msmsPin/traceBuilder/pin/TestProgram/parsec-3.0/pkgs/apps/blackscholes/inst/amd64-linux.gcc-serial/bin/blackscholes'
     cmd = ['inst/amd64-linux.gcc-serial/bin/blackscholes', 
             '1', 
             'inputs/input_simmedium/in_16K.txt', 
@@ -151,13 +154,13 @@ class blackscholesWK(Process):
           ]
 
 class loopchecker(Process):
-    cwd = "/media/tanawin/tanawin1701d/Project/sms/compiledEle/meta_workloads/test-progs/foolloop"
-    executable = "/media/tanawin/tanawin1701d/Project/sms/compiledEle/meta_workloads/test-progs/foolloop/1000l"
+    cwd = "/tanawin1701d/Project/sms/compiledEle/meta_workloads/test-progs/foolloop"
+    executable = "/tanawin1701d/Project/sms/compiledEle/meta_workloads/test-progs/foolloop/1000l"
     cmd = ["1000l"]
 
 class dummyProc(Process):
-    cwd = "/media/tanawin/tanawin1701e/Project/gem5base/gem5/tests/dummy"
-    executable = "/media/tanawin/tanawin1701e/Project/gem5base/gem5/tests/dummy/d"
+    cwd = "/tanawin1701e/Project/gem5base/gem5/tests/dummy"
+    executable = "/tanawin1701e/Project/gem5base/gem5/tests/dummy/d"
     cmd = ["d"]
 
 
@@ -225,7 +228,7 @@ for i in range(np):
 
 
 mp0_path = multiprocesses[0].executable
-system = System(cpu = [CPUClass(cpu_id=i) for i in range(np)],
+system = System(cpu = [CPUClass(cpu_id=i, commitStatPath = opt_comStatPath) for i in range(np)],
                 mem_mode = test_mem_mode,
                 mem_ranges = [AddrRange(args.mem_size)],
                 cache_line_size = args.cacheline_size)

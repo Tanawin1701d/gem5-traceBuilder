@@ -19,61 +19,9 @@ namespace gem5{
     Mmu::translateTiming(const RequestPtr &req, ThreadContext *tc,Translation *translation, Mode mode){
         
         translateAtomic(req, tc, mode);
-
-        if (mode == BaseMMU::Execute){
-
-            /** for i side*/
-            preRetIsideQueue.push({
-                req,
-                tc,
-                mode,
-                translation
-            });
-            if (!finishIsideTranslateEvent.scheduled()){
-                schedule(finishIsideTranslateEvent, curTick() + 500);
-            }
-
-        }else{
-            /** for d side*/
-            preRetDsideQueue.push({
-                req,
-                tc,
-                mode,
-                translation
-            });
-            if (!finishDsideTranslateEvent.scheduled()){
-                schedule(finishDsideTranslateEvent, curTick() + 500);
-            }
-
-        }
+        translation->finish(NoFault, req, tc, mode);
 
     };
-
-    void
-    Mmu::completeIsideTiming(){
-        preRetIsideQueue.front().translation->finish(NoFault, 
-                                                          preRetIsideQueue.front().reqside, 
-                                                          preRetIsideQueue.front().tcside, 
-                                                          preRetIsideQueue.front().modeside
-        );
-        preRetIsideQueue.pop();
-        if (!preRetIsideQueue.empty() && !finishIsideTranslateEvent.scheduled()){
-            schedule(finishIsideTranslateEvent, curTick() + 500);
-        }
-    }
-
-    void
-    Mmu::completeDsideTiming(){
-        preRetDsideQueue.front().translation->finish(NoFault, preRetDsideQueue.front().reqside,
-                                                              preRetDsideQueue.front().tcside,
-                                                              preRetDsideQueue.front().modeside
-        );
-        preRetDsideQueue.pop();
-        if (!preRetDsideQueue.empty() && !finishDsideTranslateEvent.scheduled()){
-            schedule(finishDsideTranslateEvent, curTick() + 500);
-        }
-    }
-
     
     Fault
     Mmu::translateFunctional(const RequestPtr &req, ThreadContext *tc, Mode mode) {

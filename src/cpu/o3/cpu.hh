@@ -98,6 +98,8 @@ class CPU : public BaseCPU
 
     friend class ThreadContext;
 
+    virtual ~CPU();
+
   public:
     enum Status
     {

@@ -42,6 +42,7 @@
 #define __CPU_O3_COMMIT_HH__
 
 #include <queue>
+#include <map>
 
 #include "base/statistics.hh"
 #include "cpu/exetrace.hh"
@@ -55,6 +56,7 @@
 #include "cpu/timebuf.hh"
 #include "enums/CommitPolicy.hh"
 #include "sim/probe/probe.hh"
+
 
 namespace gem5
 {
@@ -507,6 +509,14 @@ class Commit
         /** Number of cycles where the commit bandwidth limit is reached. */
         statistics::Scalar commitEligibleSamples;
     } stats;
+
+    struct instrStat{
+      uint64_t instrCount = 0;
+    };
+    std::map<std::string, instrStat> commitStat;
+    std::ofstream* outputCommitStat; 
+  public:
+        void finalizeCommitStat();
 };
 
 } // namespace o3
